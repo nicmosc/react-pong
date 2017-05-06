@@ -7,7 +7,7 @@ import Application from 'containers/Application';
 
 import setupStore from 'store';
 
-// import 'styles/app.less';
+import 'styles/app.less';
 
 
 function enableHMR(fn) {
