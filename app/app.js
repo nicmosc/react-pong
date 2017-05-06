@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 
-import Application from 'containers/Application';
+import Pong from 'containers/Pong';
 
 import setupStore from 'store';
 
@@ -14,7 +14,7 @@ function enableHMR(fn) {
   fn();
 
   if (module.hot) {
-    module.hot.accept('containers/Application', () => { fn() })
+    module.hot.accept('containers/Pong', () => { fn() })
   }
 }
 
@@ -26,7 +26,7 @@ enableHMR(() => {
   ReactDOM.render(
     <AppContainer>
       <Provider store={store}>
-        <Application />
+        <Pong />
       </Provider>
     </AppContainer>,
     document.getElementById('root'),
