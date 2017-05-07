@@ -8,7 +8,7 @@ const dimensions = {
 
 
 function calculateInitialPos(hw) {
-  return (hw / 2) - dimensions.size;
+  return (hw / 2) - dimensions.size / 2;
 }
 
 
@@ -17,6 +17,8 @@ class Ball extends React.Component {
   state = {
     ySpeed: 10,
     xSpeed: 10,
+    xBounced: false,
+    yBounced: false,
   };
 
   constructor(props) {
@@ -49,12 +51,41 @@ class Ball extends React.Component {
   }
 
   _loop() {
-    const { x, y, xSpeed, ySpeed } = this.state;
+    const { windowWidth, windowHeight } = this.props;
+    const { x, y, xSpeed, ySpeed, xBounced, yBounced } = this.state;
 
+    // HORIZONTAL
+    if ((x >= windowWidth - 100 && ! xBounced)
+        || (x <= 0 + 100 && ! xBounced)) {
+      this.setState({
+        xSpeed: -xSpeed,
+        xBounced: true,
+      });
+    }
+
+    if ((x < windowWidth / 2 && xSpeed < 0 && xBounced)
+        || (x > windowWidth / 2 && xSpeed > 0 && xBounced)) {
+      this.setState({
+        xBounced: false,
+      });
+    }
+
+
+    // VERTICAL
+
+    // if (y >= windowHeight) {
+    //   this.setState({
+    //     ySpeed: -ySpeed,
+    //   });
+    // }
+
+
+    // MOVEMENT
     this.setState({
       x: x + xSpeed,
-      y: y + ySpeed,
+      // y: y + ySpeed,
     });
+
     requestAnimationFrame(this._loop);
   }
 }
