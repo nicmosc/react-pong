@@ -11,7 +11,7 @@ export function updateRightPaddle(y) {
 };
 
 
-export const UPDATE_LEFT_PADDLE_POSITION = 'UPDATE_RIGHT_PADDLE_POSITION';
+export const UPDATE_LEFT_PADDLE_POSITION = 'UPDATE_LEFT_PADDLE_POSITION';
 
 
 export function updateLeftPaddle(y) {
