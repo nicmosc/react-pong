@@ -28,7 +28,8 @@ class Pong extends React.Component {
   }
 
   render() {
-    const { width, height } = this.state;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
     return (
       <div className={styles.pong}>
         <div className={styles.divisor}></div>
@@ -73,6 +74,7 @@ const mapStateToProps = (state) => ({
 
 
 const mapDispatchToProps = {
+
 };
 
 
