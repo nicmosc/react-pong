@@ -22,7 +22,8 @@ function calculateXPos(wWidth, right) {
 class Paddle extends React.Component {
 
   state = {
-    key: null,
+    up: false,
+    down: false,
   };
 
   constructor(props) {
@@ -62,12 +63,12 @@ class Paddle extends React.Component {
   }
 
   _loop() {
-    if (this.state.key === 'up' && this.state.y < (this.props.windowHeight - dimensions.height)) {
+    if (this.state.up && this.state.y < (this.props.windowHeight - dimensions.height)) {
       this.setState({
         y: this.state.y + 10,
       });
     }
-    if (this.state.key === 'down' && this.state.y > 0) {
+    else if (this.state.down && this.state.y > 0) {
       this.setState({
         y: this.state.y - 10,
       });
@@ -79,24 +80,24 @@ class Paddle extends React.Component {
     if (this.props.right) {
       if (event.keyCode === 40) {
         this.setState({
-          key: 'up',
+          up: true,
         });
       }
       else if (event.keyCode === 38) {
         this.setState({
-          key: 'down',
+          down: true,
         });
       }
     }
     else {
       if (event.keyCode === 65) {
         this.setState({
-          key: 'up',
+          up: true,
         });
       }
       else if (event.keyCode === 81) {
         this.setState({
-          key: 'down',
+          down: true,
         });
       }
     }
@@ -104,16 +105,26 @@ class Paddle extends React.Component {
 
   _handleKeyUp(event) {
     if (this.props.right) {
-      if ((event.keyCode === 40 || event.keyCode === 38) && this.state.key) {
+      if (event.keyCode === 40 && this.state.up) {
         this.setState({
-          key: null,
+          up: false,
+        });
+      }
+      else if (event.keyCode === 38 && this.state.down) {
+        this.setState({
+          down: false,
         });
       }
     }
     else {
-      if ((event.keyCode === 65 || event.keyCode === 81) && this.state.key) {
+      if (event.keyCode === 65 && this.state.up) {
         this.setState({
-          key: null,
+          up: false,
+        });
+      }
+      else if (event.keyCode === 81 && this.state.down) {
+        this.setState({
+          down: false,
         });
       }
     }

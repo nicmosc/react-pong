@@ -4,6 +4,7 @@ import { compose } from 'redux';
 
 import Court from 'components/Court';
 import Paddle from 'components/Paddle';
+import Ball from 'components/Ball';
 
 import styles from 'styles/containers/pong';
 
@@ -47,6 +48,9 @@ class Pong extends React.Component {
             windowWidth={width}
             right={true} />
           <Paddle
+            windowHeight={height}
+            windowWidth={width} />
+          <Ball
             windowHeight={height}
             windowWidth={width} />
         </Court>
