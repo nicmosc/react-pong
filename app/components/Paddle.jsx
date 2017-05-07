@@ -62,12 +62,12 @@ class Paddle extends React.Component {
   }
 
   _loop() {
-    if (this.state.key === 'up') {
+    if (this.state.key === 'up' && this.state.y < (this.props.windowHeight - dimensions.height)) {
       this.setState({
         y: this.state.y + 10,
       });
     }
-    if (this.state.key === 'down') {
+    if (this.state.key === 'down' && this.state.y > 0) {
       this.setState({
         y: this.state.y - 10,
       });
