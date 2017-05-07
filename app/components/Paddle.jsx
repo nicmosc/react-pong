@@ -2,7 +2,7 @@ import React from 'react';
 import { Rect } from 'react-konva';
 
 
-const constants = {
+export const constants = {
   width: 13,
   height: 100,
   x: 10,

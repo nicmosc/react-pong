@@ -1,6 +1,7 @@
 import React from 'react';
 import { Rect } from 'react-konva';
 
+import { constants as paddleDimensions } from './Paddle';
 
 const size = 15;
 
@@ -50,9 +51,24 @@ class Ball extends React.Component {
     );
   }
 
+
+  // TODO: Clean up this loop and move things in different functions
   _loop() {
-    const { windowWidth, windowHeight } = this.props;
-    const { x, y, xSpeed, ySpeed, xBounced, yBounced, stop } = this.state;
+    const {
+      windowWidth,
+      windowHeight,
+      leftPaddlePosition,
+      rightPaddlePosition,
+    } = this.props;
+    const {
+      x,
+      y,
+      xSpeed,
+      ySpeed,
+      xBounced,
+      yBounced,
+      stop
+    } = this.state;
 
     // HORIZONTAL
     if (x >= windowWidth || x < -size) {
@@ -65,7 +81,6 @@ class Ball extends React.Component {
         xBounced: false,
       });
     }
-
 
     // VERTICAL
     if ((y + size >= windowHeight && ! yBounced)
@@ -83,6 +98,23 @@ class Ball extends React.Component {
       });
     }
 
+    // RIGHT PADDLE COLLISION DETECTION
+    if (x + size >= windowWidth - paddleDimensions.width - paddleDimensions.x &&
+      ( y + size >= rightPaddlePosition && y <= rightPaddlePosition + paddleDimensions.height)) {
+      this.setState({
+        xSpeed: -xSpeed,
+        xBounced: true,
+      });
+    }
+
+    // LEFT PADDLE COLLISION DETECTION
+    if (x <= paddleDimensions.width + paddleDimensions.x &&
+      ( y + size >= leftPaddlePosition && y <= leftPaddlePosition + paddleDimensions.height)) {
+      this.setState({
+        xSpeed: -xSpeed,
+        xBounced: true,
+      });
+    }
 
     // MOVEMENT
     if (! stop && x && y) {
@@ -106,7 +138,7 @@ class Ball extends React.Component {
       yBounced: false,
       stop: true,
     });
-    setTimeout(this._restart, 2000);
+    setTimeout(this._restart, 300);
   }
 
   _restart() {

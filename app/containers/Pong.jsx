@@ -71,7 +71,9 @@ class Pong extends React.Component {
             update={updateLeftPaddle} />
           <Ball
             windowHeight={height}
-            windowWidth={width} />
+            windowWidth={width}
+            leftPaddlePosition={yLeft}
+            rightPaddlePosition={yRight} />
         </Court>
       </div>
     );
