@@ -1,21 +1,21 @@
-import * as PaddleActions from 'actions/paddle';
+import * as GameActions from 'actions/game';
 
-const initialState = {
+const paddleState = {
   yRight: 0,
   yLeft: 0,
 };
 
 
-export default function paddle(state = initialState, action) {
+export default function paddle(state = paddleState, action) {
   switch(action.type) {
-    case PaddleActions.UPDATE_RIGHT_PADDLE_POSITION: {
+    case GameActions.UPDATE_RIGHT_PADDLE_POSITION: {
       const { y } = action.payload;
       return {
         ...state,
         yRight: y,
       };
     }
-    case PaddleActions.UPDATE_LEFT_PADDLE_POSITION: {
+    case GameActions.UPDATE_LEFT_PADDLE_POSITION: {
       const { y } = action.payload;
       return {
         ...state,

@@ -1,8 +1,8 @@
 export function getLeftPaddlePosition(state) {
-  return state.paddle.yLeft;
+  return state.game.yLeft;
 }
 
 
 export function getRightPaddlePosition(state) {
-  return state.paddle.yRight;
+  return state.game.yRight;
 }

@@ -1,2 +1,2 @@
 export * from './ui';
-export * from './paddle';
+export * from './game';
