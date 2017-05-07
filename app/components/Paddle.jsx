@@ -20,18 +20,82 @@ function calculateXPos(wWidth, right) {
 
 
 class Paddle extends React.Component {
+
+  state = {
+    key: '',
+  };
+
+  constructor(props) {
+    super(props);
+    this._loop = this._loop.bind(this);
+    this._handleKeyDown = this._handleKeyDown.bind(this);
+    this._handleKeyUp = this._handleKeyUp.bind(this);
+  }
+
+  componentDidMount() {
+    const { windowHeight } = this.props;
+    this.setState({
+      y: calculateYPos(windowHeight),
+    });
+    document.addEventListener("keydown", this._handleKeyDown, false);
+    document.addEventListener("keyup", this._handleKeyUp, false);
+    this._loop();
+  }
+
+  componentWillUnmount() {
+    this._stopLoop();
+  }
+
   render() {
     const { windowHeight, windowWidth, right } = this.props;
     const { width, height, x } = dimensions;
+    const { y } = this.state;
     return (
       <Rect
         width={width}
         height={height}
         fill={"white"}
         x={calculateXPos(windowWidth, right)}
-        y={calculateYPos(windowHeight)}
+        y={y}
       />
     );
+  }
+
+  _loop() {
+    if (this.state.key === 'up') {
+      this.setState({
+        y: this.state.y + 10,
+      });
+    }
+    if (this.state.key === 'down') {
+      this.setState({
+        y: this.state.y - 10,
+      });
+    }
+    requestAnimationFrame( this._loop );
+  }
+
+  _handleKeyDown(event) {
+    if (event.keyCode === 40) {
+      this.setState({
+        key: 'up',
+      });
+    }
+    else if (event.keyCode === 38) {
+      this.setState({
+        key: 'down',
+      });
+    }
+  }
+
+  _handleKeyUp(event) {
+    this.setState({
+      key: '',
+    });
+  }
+
+  _stopLoop() {
+    cancelAnimationFrame( this._frameId );
   }
 }
 
