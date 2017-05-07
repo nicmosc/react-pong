@@ -22,7 +22,7 @@ function calculateXPos(wWidth, right) {
 class Paddle extends React.Component {
 
   state = {
-    key: '',
+    key: null,
   };
 
   constructor(props) {
@@ -76,22 +76,47 @@ class Paddle extends React.Component {
   }
 
   _handleKeyDown(event) {
-    if (event.keyCode === 40) {
-      this.setState({
-        key: 'up',
-      });
+    if (this.props.right) {
+      if (event.keyCode === 40) {
+        this.setState({
+          key: 'up',
+        });
+      }
+      else if (event.keyCode === 38) {
+        this.setState({
+          key: 'down',
+        });
+      }
     }
-    else if (event.keyCode === 38) {
-      this.setState({
-        key: 'down',
-      });
+    else {
+      if (event.keyCode === 65) {
+        this.setState({
+          key: 'up',
+        });
+      }
+      else if (event.keyCode === 81) {
+        this.setState({
+          key: 'down',
+        });
+      }
     }
   }
 
   _handleKeyUp(event) {
-    this.setState({
-      key: '',
-    });
+    if (this.props.right) {
+      if ((event.keyCode === 40 || event.keyCode === 38) && this.state.key) {
+        this.setState({
+          key: null,
+        });
+      }
+    }
+    else {
+      if ((event.keyCode === 65 || event.keyCode === 81) && this.state.key) {
+        this.setState({
+          key: null,
+        });
+      }
+    }
   }
 
   _stopLoop() {
