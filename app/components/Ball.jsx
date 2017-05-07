@@ -2,13 +2,11 @@ import React from 'react';
 import { Rect } from 'react-konva';
 
 
-const dimensions = {
-  size: 15,
-}
+const size = 15;
 
 
 function calculateInitialPos(hw) {
-  return (hw / 2) - dimensions.size / 2;
+  return (hw / 2) - size / 2;
 }
 
 
@@ -42,8 +40,8 @@ class Ball extends React.Component {
     const { x, y } = this.state;
     return (
       <Rect
-        width={dimensions.size}
-        height={dimensions.size}
+        width={size}
+        height={size}
         fill="white"
         x={x}
         y={y} />
@@ -55,8 +53,8 @@ class Ball extends React.Component {
     const { x, y, xSpeed, ySpeed, xBounced, yBounced } = this.state;
 
     // HORIZONTAL
-    if ((x >= windowWidth - 100 && ! xBounced)
-        || (x <= 0 + 100 && ! xBounced)) {
+    if ((x + size >= windowWidth && ! xBounced)
+        || (x <= 0 && ! xBounced)) {
       this.setState({
         xSpeed: -xSpeed,
         xBounced: true,
@@ -73,17 +71,26 @@ class Ball extends React.Component {
 
     // VERTICAL
 
-    // if (y >= windowHeight) {
-    //   this.setState({
-    //     ySpeed: -ySpeed,
-    //   });
-    // }
+    if ((y + size >= windowHeight && ! yBounced)
+        || (y <= 0 && ! yBounced)) {
+      this.setState({
+        ySpeed: -ySpeed,
+        yBounced: true,
+      });
+    }
+
+    if ((y < windowHeight / 2 && ySpeed < 0 && yBounced)
+        || (y > windowHeight / 2 && ySpeed > 0 && yBounced)) {
+      this.setState({
+        yBounced: false,
+      });
+    }
 
 
     // MOVEMENT
     this.setState({
       x: x + xSpeed,
-      // y: y + ySpeed,
+      y: y + ySpeed,
     });
 
     requestAnimationFrame(this._loop);
