@@ -99,8 +99,9 @@ class Ball extends React.Component {
     }
 
     // RIGHT PADDLE COLLISION DETECTION
-    if (x + size >= windowWidth - paddleDimensions.width - paddleDimensions.x &&
-      ( y + size >= rightPaddlePosition && y <= rightPaddlePosition + paddleDimensions.height)) {
+    if (x + size >= windowWidth - paddleDimensions.width - paddleDimensions.x
+      && y + size >= rightPaddlePosition
+      && y <= rightPaddlePosition + paddleDimensions.height && ! xBounced) {
       this.setState({
         xSpeed: -xSpeed,
         xBounced: true,
@@ -108,8 +109,9 @@ class Ball extends React.Component {
     }
 
     // LEFT PADDLE COLLISION DETECTION
-    if (x <= paddleDimensions.width + paddleDimensions.x &&
-      ( y + size >= leftPaddlePosition && y <= leftPaddlePosition + paddleDimensions.height)) {
+    if (x <= paddleDimensions.width + paddleDimensions.x
+        && y + size >= leftPaddlePosition
+        && y <= leftPaddlePosition + paddleDimensions.height && ! xBounced) {
       this.setState({
         xSpeed: -xSpeed,
         xBounced: true,
