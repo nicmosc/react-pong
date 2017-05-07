@@ -5,6 +5,14 @@ import { compose } from 'redux';
 import Court from 'components/Court';
 import Paddle from 'components/Paddle';
 import Ball from 'components/Ball';
+import {
+  updateRightPaddle,
+  updateLeftPaddle,
+} from 'actions';
+import {
+  getRightPaddlePosition,
+  getLeftPaddlePosition,
+} from 'selectors';
 
 import styles from 'styles/containers/pong';
 
@@ -30,6 +38,12 @@ class Pong extends React.Component {
   render() {
     const width = window.innerWidth;
     const height = window.innerHeight;
+    const {
+      yRight,
+      yLeft,
+      updateRightPaddle,
+      updateLeftPaddle,
+    } = this.props;
     return (
       <div className={styles.pong}>
         <div className={styles.divisor}></div>
@@ -47,10 +61,14 @@ class Pong extends React.Component {
           <Paddle
             windowHeight={height}
             windowWidth={width}
+            y={yRight}
+            update={updateRightPaddle}
             right={true} />
           <Paddle
             windowHeight={height}
-            windowWidth={width} />
+            windowWidth={width}
+            y={yLeft}
+            update={updateLeftPaddle} />
           <Ball
             windowHeight={height}
             windowWidth={width} />
@@ -70,11 +88,14 @@ class Pong extends React.Component {
 
 
 const mapStateToProps = (state) => ({
+  yLeft: getLeftPaddlePosition(state),
+  yRight: getRightPaddlePosition(state),
 });
 
 
 const mapDispatchToProps = {
-
+  updateRightPaddle,
+  updateLeftPaddle,
 };
 
 
