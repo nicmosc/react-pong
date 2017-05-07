@@ -38,13 +38,10 @@ class Paddle extends React.Component {
     this.setState({
       y: calculateYPos(windowHeight),
     });
+    console.log(this.state);
     document.addEventListener("keydown", this._handleKeyDown, false);
     document.addEventListener("keyup", this._handleKeyUp, false);
     this._loop();
-  }
-
-  componentWillUnmount() {
-    this._stopLoop();
   }
 
   render() {
@@ -128,10 +125,6 @@ class Paddle extends React.Component {
         });
       }
     }
-  }
-
-  _stopLoop() {
-    cancelAnimationFrame( this._frameId );
   }
 }
 

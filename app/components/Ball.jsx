@@ -15,14 +15,25 @@ function calculateInitialPos(hw) {
 class Ball extends React.Component {
 
   state = {
+    ySpeed: 10,
+    xSpeed: 10,
+  };
+
+  constructor(props) {
+    super(props);
+    this._loop = this._loop.bind(this);
+  }
+
+  componentWillMount() {
+    const { windowHeight, windowWidth } = this.props;
+    this.setState({
+      x: calculateInitialPos(windowWidth),
+      y: calculateInitialPos(windowHeight),
+    });
   }
 
   componentDidMount() {
-    const { windowHeight, windowWidth } = this.props;
-    this.setState({
-      x: calculateInitialPos(windowHeight),
-      y: calculateInitialPos(windowWidth),
-    });
+    this._loop();
   }
 
   render() {
@@ -35,6 +46,16 @@ class Ball extends React.Component {
         x={x}
         y={y} />
     );
+  }
+
+  _loop() {
+    const { x, y, xSpeed, ySpeed } = this.state;
+
+    this.setState({
+      x: x + xSpeed,
+      y: y + ySpeed,
+    });
+    requestAnimationFrame(this._loop);
   }
 }
 
