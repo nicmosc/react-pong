@@ -10,10 +10,26 @@ import styles from 'styles/containers/pong';
 
 class Pong extends React.Component {
 
+  state = {
+  };
+
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillMount() {
+    this._handleWindowResize();
+    window.addEventListener("resize", this._handleWindowResize.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this._handleWindowResize.bind(this));
+  }
+
   render() {
+    const { width, height } = this.state;
     return (
       <div className={styles.pong}>
-
         <div className={styles.divisor}></div>
         <div className={styles.score}>
           <div className={styles.left}>
@@ -23,11 +39,26 @@ class Pong extends React.Component {
             5
           </div>
         </div>
-        <Court>
-          <Paddle />
+        <Court
+          width={width}
+          height={height} >
+          <Paddle
+            windowHeight={height}
+            windowWidth={width}
+            right={true} />
+          <Paddle
+            windowHeight={height}
+            windowWidth={width} />
         </Court>
       </div>
     );
+  }
+
+  _handleWindowResize() {
+    this.setState({
+      height: window.innerHeight,
+      width: window.innerWidth,
+    });
   }
 
 }
