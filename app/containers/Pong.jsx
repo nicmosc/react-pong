@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
+import Court from 'components/Court';
+import Paddle from 'components/Paddle';
+
 import styles from 'styles/containers/pong';
 
 
@@ -10,6 +13,7 @@ class Pong extends React.Component {
   render() {
     return (
       <div className={styles.pong}>
+
         <div className={styles.divisor}></div>
         <div className={styles.score}>
           <div className={styles.left}>
@@ -19,6 +23,9 @@ class Pong extends React.Component {
             5
           </div>
         </div>
+        <Court>
+          <Paddle />
+        </Court>
       </div>
     );
   }
