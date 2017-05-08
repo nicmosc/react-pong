@@ -81,9 +81,14 @@ class Ball extends React.Component {
   }
 
   _handleBallScore() {
-    const { windowWidth } = this.props;
+    const { windowWidth, increaseScore } = this.props;
     const { x } = this.state;
-    if (x >= windowWidth || x < -size) {
+    if (x >= windowWidth) {
+      increaseScore(1);
+      this._stop();
+    }
+    else if (x < -size) {
+      increaseScore(2);
       this._stop();
     }
   }

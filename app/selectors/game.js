@@ -11,3 +11,12 @@ export function getRightPaddlePosition(state) {
 export function getIsGamePaused(state) {
   return state.game.paused;
 }
+
+
+export function getPlayerScores(state) {
+  const { player1, player2 } = state.game;
+  return {
+    player1,
+    player2,
+  };
+}

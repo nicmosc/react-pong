@@ -18,7 +18,7 @@
 :local(.divisor) {
   position: absolute;
   top: 0;
-  left: 50%;
+  left: ~'calc(50% - 5px)';
   height: 100%;
   border-left: 10px dashed @white;
 }
@@ -35,10 +35,13 @@
 
 
 :local(.left) {
+  flex: 1;
   margin-right: 1em;
+  text-align: right;
 }
 
 
 :local(.right) {
+  flex: 1;
   margin-left: 1em;
 }

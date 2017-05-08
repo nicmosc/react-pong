@@ -9,11 +9,13 @@ import {
   updateRightPaddle,
   updateLeftPaddle,
   togglePlayPause,
+  increasePlayerScore,
 } from 'actions';
 import {
   getRightPaddlePosition,
   getLeftPaddlePosition,
   getIsGamePaused,
+  getPlayerScores,
 } from 'selectors';
 
 import styles from 'styles/containers/pong';
@@ -52,16 +54,18 @@ class Pong extends React.Component {
       updateLeftPaddle,
       isGamePaused,
       togglePlayPause,
+      increasePlayerScore,
+      scores,
     } = this.props;
     return (
       <div className={styles.pong}>
         <div className={styles.divisor}></div>
         <div className={styles.score}>
           <div className={styles.left}>
-            10
+            {scores.player1}
           </div>
           <div className={styles.right}>
-            5
+            {scores.player2}
           </div>
         </div>
         <Court
@@ -85,7 +89,8 @@ class Pong extends React.Component {
             windowWidth={width}
             leftPaddlePosition={yLeft}
             rightPaddlePosition={yRight}
-            gameRunning={! isGamePaused} />
+            gameRunning={! isGamePaused}
+            increaseScore={increasePlayerScore} />
         </Court>
       </div>
     );
@@ -112,6 +117,7 @@ const mapStateToProps = (state) => ({
   yLeft: getLeftPaddlePosition(state),
   yRight: getRightPaddlePosition(state),
   isGamePaused: getIsGamePaused(state),
+  scores: getPlayerScores(state),
 });
 
 
@@ -119,6 +125,7 @@ const mapDispatchToProps = {
   updateRightPaddle,
   updateLeftPaddle,
   togglePlayPause,
+  increasePlayerScore,
 };
 
 
