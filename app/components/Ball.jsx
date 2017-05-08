@@ -56,23 +56,6 @@ class Ball extends React.Component {
 
 
   _loop() {
-    const {
-      windowWidth,
-      windowHeight,
-      leftPaddlePosition,
-      rightPaddlePosition,
-      gameRunning,
-    } = this.props;
-    const {
-      x,
-      y,
-      xSpeed,
-      ySpeed,
-      xBounced,
-      yBounced,
-      stop,
-    } = this.state;
-
     this._handleBallScore();
 
     this._resetBallBounce();
@@ -81,15 +64,20 @@ class Ball extends React.Component {
 
     this._handlePaddleCollisionDetection();
 
-    // MOVEMENT
+    this._handleMovement();
+
+    requestAnimationFrame(this._loop);
+  }
+
+  _handleMovement() {
+    const { gameRunning } = this.props;
+    const { x, y, xSpeed, ySpeed, stop } = this.state;
     if (! stop && x && y && gameRunning) {
       this.setState({
         x: x + xSpeed,
         y: y + ySpeed,
       });
     }
-
-    requestAnimationFrame(this._loop);
   }
 
   _handleBallScore() {
