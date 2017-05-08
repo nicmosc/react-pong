@@ -25,6 +25,9 @@ class Ball extends React.Component {
     super(props);
     this._loop = this._loop.bind(this);
     this._restart = this._restart.bind(this);
+    this._resetBallBounce = this._resetBallBounce.bind(this);
+    this._handleBorderBounce = this._handleBorderBounce.bind(this);
+    this._handlePaddleCollisionDetection = this._handlePaddleCollisionDetection.bind(this);
   }
 
   componentWillMount() {
@@ -52,7 +55,6 @@ class Ball extends React.Component {
   }
 
 
-  // TODO: Clean up this loop and move things in different functions
   _loop() {
     const {
       windowWidth,
@@ -71,53 +73,13 @@ class Ball extends React.Component {
       stop,
     } = this.state;
 
-    // HORIZONTAL
-    if (x >= windowWidth || x < -size) {
-      this._stop();
-    }
+    this._handleBallScore();
 
-    if ((x < windowWidth / 2 && xSpeed < 0 && xBounced)
-        || (x > windowWidth / 2 && xSpeed > 0 && xBounced)) {
-      this.setState({
-        xBounced: false,
-      });
-    }
+    this._resetBallBounce();
 
-    // VERTICAL
-    if ((y + size >= windowHeight && ! yBounced)
-        || (y <= 0 && ! yBounced)) {
-      this.setState({
-        ySpeed: -ySpeed,
-        yBounced: true,
-      });
-    }
+    this._handleBorderBounce();
 
-    if ((y < windowHeight / 2 && ySpeed < 0 && yBounced)
-        || (y > windowHeight / 2 && ySpeed > 0 && yBounced)) {
-      this.setState({
-        yBounced: false,
-      });
-    }
-
-    // RIGHT PADDLE COLLISION DETECTION
-    if (x + size + 10 >= windowWidth - paddleDimensions.width - paddleDimensions.x
-      && y + size - 10 >= rightPaddlePosition
-      && y + 10 <= rightPaddlePosition + paddleDimensions.height && ! xBounced) {
-      this.setState({
-        xSpeed: -xSpeed,
-        xBounced: true,
-      });
-    }
-
-    // LEFT PADDLE COLLISION DETECTION
-    if (x - 10 <= paddleDimensions.width + paddleDimensions.x
-        && y + size >= leftPaddlePosition
-        && y <= leftPaddlePosition + paddleDimensions.height && ! xBounced) {
-      this.setState({
-        xSpeed: -xSpeed,
-        xBounced: true,
-      });
-    }
+    this._handlePaddleCollisionDetection();
 
     // MOVEMENT
     if (! stop && x && y && gameRunning) {
@@ -128,6 +90,65 @@ class Ball extends React.Component {
     }
 
     requestAnimationFrame(this._loop);
+  }
+
+  _handleBallScore() {
+    const { windowWidth } = this.props;
+    const { x } = this.state;
+    if (x >= windowWidth || x < -size) {
+      this._stop();
+    }
+  }
+
+  _handlePaddleCollisionDetection() {
+    const { windowWidth, windowHeight, rightPaddlePosition, leftPaddlePosition } = this.props;
+    const { x, y, xSpeed, xBounced, yBounced } = this.state;
+    // RIGHT PADDLE
+    if (x + size + 10 >= windowWidth - paddleDimensions.width - paddleDimensions.x
+      && y + size - 10 >= rightPaddlePosition
+      && y + 10 <= rightPaddlePosition + paddleDimensions.height && ! xBounced) {
+      this.setState({
+        xSpeed: -xSpeed,
+        xBounced: true,
+      });
+    }
+    // LEFT PADDLE
+    if (x - 10 <= paddleDimensions.width + paddleDimensions.x
+        && y + size >= leftPaddlePosition
+        && y <= leftPaddlePosition + paddleDimensions.height && ! xBounced) {
+      this.setState({
+        xSpeed: -xSpeed,
+        xBounced: true,
+      });
+    }
+  }
+
+  _handleBorderBounce() {
+    const { windowWidth, windowHeight } = this.props;
+    const { x, y, xSpeed, ySpeed, xBounced, yBounced } = this.state;
+    if ((y + size >= windowHeight && ! yBounced) || (y <= 0 && ! yBounced)) {
+      this.setState({
+        ySpeed: -ySpeed,
+        yBounced: true,
+      });
+    }
+  }
+
+  _resetBallBounce() {
+    const { windowWidth, windowHeight } = this.props;
+    const { x, y, xSpeed, ySpeed, xBounced, yBounced } = this.state;
+    // horizontal
+    if ((x < windowWidth / 2 && xSpeed < 0 && xBounced) || (x > windowWidth / 2 && xSpeed > 0 && xBounced)) {
+      this.setState({
+        xBounced: false,
+      });
+    }
+    // vertical
+    if ((y < windowHeight / 2 && ySpeed < 0 && yBounced) || (y > windowHeight / 2 && ySpeed > 0 && yBounced)) {
+      this.setState({
+        yBounced: false,
+      });
+    }
   }
 
   _stop() {
