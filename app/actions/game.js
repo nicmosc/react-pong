@@ -22,3 +22,13 @@ export function updateLeftPaddle(y) {
     }
   }
 };
+
+
+export const TOGGLE_PAUSE_GAME = 'TOGGLE_PAUSE_GAME';
+
+
+export function togglePlayPause() {
+  return {
+    type: TOGGLE_PAUSE_GAME,
+  }
+}

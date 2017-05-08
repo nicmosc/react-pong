@@ -59,6 +59,7 @@ class Ball extends React.Component {
       windowHeight,
       leftPaddlePosition,
       rightPaddlePosition,
+      gameRunning,
     } = this.props;
     const {
       x,
@@ -67,7 +68,7 @@ class Ball extends React.Component {
       ySpeed,
       xBounced,
       yBounced,
-      stop
+      stop,
     } = this.state;
 
     // HORIZONTAL
@@ -99,9 +100,9 @@ class Ball extends React.Component {
     }
 
     // RIGHT PADDLE COLLISION DETECTION
-    if (x + size >= windowWidth - paddleDimensions.width - paddleDimensions.x
-      && y + size >= rightPaddlePosition
-      && y <= rightPaddlePosition + paddleDimensions.height && ! xBounced) {
+    if (x + size + 10 >= windowWidth - paddleDimensions.width - paddleDimensions.x
+      && y + size - 10 >= rightPaddlePosition
+      && y + 10 <= rightPaddlePosition + paddleDimensions.height && ! xBounced) {
       this.setState({
         xSpeed: -xSpeed,
         xBounced: true,
@@ -109,7 +110,7 @@ class Ball extends React.Component {
     }
 
     // LEFT PADDLE COLLISION DETECTION
-    if (x <= paddleDimensions.width + paddleDimensions.x
+    if (x - 10 <= paddleDimensions.width + paddleDimensions.x
         && y + size >= leftPaddlePosition
         && y <= leftPaddlePosition + paddleDimensions.height && ! xBounced) {
       this.setState({
@@ -119,7 +120,7 @@ class Ball extends React.Component {
     }
 
     // MOVEMENT
-    if (! stop && x && y) {
+    if (! stop && x && y && gameRunning) {
       this.setState({
         x: x + xSpeed,
         y: y + ySpeed,

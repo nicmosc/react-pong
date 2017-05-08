@@ -8,10 +8,12 @@ import Ball from 'components/Ball';
 import {
   updateRightPaddle,
   updateLeftPaddle,
+  togglePlayPause,
 } from 'actions';
 import {
   getRightPaddlePosition,
   getLeftPaddlePosition,
+  getIsGamePaused,
 } from 'selectors';
 
 import styles from 'styles/containers/pong';
@@ -24,6 +26,11 @@ class Pong extends React.Component {
 
   constructor(props) {
     super(props);
+    this._handleKeyPress = this._handleKeyPress.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener("keypress", this._handleKeyPress, false);
   }
 
   componentWillMount() {
@@ -43,6 +50,8 @@ class Pong extends React.Component {
       yLeft,
       updateRightPaddle,
       updateLeftPaddle,
+      isGamePaused,
+      togglePlayPause,
     } = this.props;
     return (
       <div className={styles.pong}>
@@ -63,20 +72,30 @@ class Pong extends React.Component {
             windowWidth={width}
             y={yRight}
             update={updateRightPaddle}
-            right={true} />
+            right={true}
+            gameRunning={! isGamePaused} />
           <Paddle
             windowHeight={height}
             windowWidth={width}
             y={yLeft}
-            update={updateLeftPaddle} />
+            update={updateLeftPaddle}
+            gameRunning={! isGamePaused} />
           <Ball
             windowHeight={height}
             windowWidth={width}
             leftPaddlePosition={yLeft}
-            rightPaddlePosition={yRight} />
+            rightPaddlePosition={yRight}
+            gameRunning={! isGamePaused} />
         </Court>
       </div>
     );
+  }
+
+  _handleKeyPress(event) {
+    const { togglePlayPause } = this.props;
+    if (event.keyCode === 32) {
+      togglePlayPause();
+    }
   }
 
   _handleWindowResize() {
@@ -92,12 +111,14 @@ class Pong extends React.Component {
 const mapStateToProps = (state) => ({
   yLeft: getLeftPaddlePosition(state),
   yRight: getRightPaddlePosition(state),
+  isGamePaused: getIsGamePaused(state),
 });
 
 
 const mapDispatchToProps = {
   updateRightPaddle,
   updateLeftPaddle,
+  togglePlayPause,
 };
 
 

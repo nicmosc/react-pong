@@ -6,3 +6,8 @@ export function getLeftPaddlePosition(state) {
 export function getRightPaddlePosition(state) {
   return state.game.yRight;
 }
+
+
+export function getIsGamePaused(state) {
+  return state.game.paused;
+}
