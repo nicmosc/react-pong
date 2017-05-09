@@ -97,16 +97,16 @@ class Ball extends React.Component {
     const { windowWidth, windowHeight, rightPaddlePosition, leftPaddlePosition } = this.props;
     const { x, y, xSpeed, xBounced, yBounced } = this.state;
     // RIGHT PADDLE
-    if (x + size + 10 >= windowWidth - paddleDimensions.width - paddleDimensions.x
-      && y + size - 10 >= rightPaddlePosition
-      && y + 10 <= rightPaddlePosition + paddleDimensions.height && ! xBounced) {
+    if (x + size + 5 >= windowWidth - paddleDimensions.width - paddleDimensions.x
+      && y + size - 5 >= rightPaddlePosition
+      && y + 5 <= rightPaddlePosition + paddleDimensions.height && ! xBounced) {
       this.setState({
         xSpeed: -xSpeed,
         xBounced: true,
       });
     }
     // LEFT PADDLE
-    if (x - 10 <= paddleDimensions.width + paddleDimensions.x
+    if (x - 5 <= paddleDimensions.width + paddleDimensions.x
         && y + size >= leftPaddlePosition
         && y <= leftPaddlePosition + paddleDimensions.height && ! xBounced) {
       this.setState({
