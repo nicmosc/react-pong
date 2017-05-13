@@ -3,7 +3,7 @@ import * as GameActions from 'actions/game';
 const initialState = {
   yRight: 0,
   yLeft: 0,
-  paused: true,
+  paused: false,
   started: false,
   winner: null,
   player1: 0,

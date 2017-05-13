@@ -53,9 +53,12 @@ export function increasePlayerScore(player) {
 export const END_GAME = 'END_GAME';
 
 
-export function endGame() {
+export function endGame(player) {
   return {
     type: END_GAME,
+    payload: {
+      player,
+    }
   };
 }
 

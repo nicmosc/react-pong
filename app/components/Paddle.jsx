@@ -57,10 +57,8 @@ class Paddle extends React.Component {
   }
 
   _loop() {
-
     const { up, down } = this.state;
     const { windowHeight, update, y, gameRunning } = this.props;
-
     if (gameRunning) {
       if (up && y < (windowHeight - constants.height)) {
         update(y + constants.speed);
@@ -69,7 +67,6 @@ class Paddle extends React.Component {
         update(y - constants.speed);
       }
     }
-
     requestAnimationFrame( this._loop );
   }
 

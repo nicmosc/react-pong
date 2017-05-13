@@ -29,6 +29,7 @@ import styles from 'styles/containers/pong';
 class Pong extends React.Component {
 
   state = {
+    welcome: true,
   };
 
   constructor(props) {
@@ -42,7 +43,7 @@ class Pong extends React.Component {
   }
 
   componentWillMount() {
-    this._handleWindowResize();
+    // this._handleWindowResize();
     window.addEventListener("resize", this._handleWindowResize.bind(this));
   }
 
@@ -64,65 +65,90 @@ class Pong extends React.Component {
       scores,
       isGameStarted,
       winner,
+      startGame,
     } = this.props;
+    const { welcome } = this.state;
     return (
       <div className={styles.pong}>
-        <div className={styles.divisor} style={{ opacity: isGameStarted ? '1' : '0.4' }}></div>
-        <div className={styles.score}>
-          <div className={styles.left}>
-            {scores.player1}
+        <If cond={welcome}>
+          <div className={styles.bigMessage}>
+            Welcome to Pong
           </div>
-          <div className={styles.right}>
-            {scores.player2}
-          </div>
-        </div>
-        <If cond={isGamePaused & isGameStarted}>
-          <div className={styles.pauseMessage}>
-            Press SPACE to continue
-          </div>
-        </If>
-        <If cond={! isGameStarted}>
-          <div className={styles.winner}>
-            {`Player ${winner} won`}
+          <div className={styles.middleMessages}>
+            <div>During a game press space to pause</div>
+            <div>Player 1 move with q-a, 2 with up-down</div>
           </div>
           <div className={styles.message}>
-            Press space to start a new game
+            Press space to start a new game now
           </div>
         </If>
-        <Court
-          width={width}
-          height={height} >
-          <Paddle
-            windowHeight={height}
-            windowWidth={width}
-            y={yRight}
-            update={updateRightPaddle}
-            right={true}
-            gameRunning={! isGamePaused} />
-          <Paddle
-            windowHeight={height}
-            windowWidth={width}
-            y={yLeft}
-            update={updateLeftPaddle}
-            gameRunning={! isGamePaused} />
-          <Ball
-            windowHeight={height}
-            windowWidth={width}
-            leftPaddlePosition={yLeft}
-            rightPaddlePosition={yRight}
-            gameRunning={! isGamePaused}
-            increaseScore={increasePlayerScore}
-            handleGameEnd={this._handleGameEnd}
-            gameStarted={isGameStarted} />
-        </Court>
+        <If cond={! welcome}>
+          <div className={styles.divisor} style={{ opacity: isGameStarted ? '1' : '0.4' }}></div>
+          <div className={styles.score}>
+            <div className={styles.left}>
+              {scores.player1}
+            </div>
+            <div className={styles.right}>
+              {scores.player2}
+            </div>
+          </div>
+          <If cond={isGamePaused & isGameStarted}>
+            <div className={styles.message}>
+              Press SPACE to continue
+            </div>
+          </If>
+          <If cond={! isGameStarted}>
+            <div className={styles.bigMessage}>
+              {`Player ${winner} won`}
+            </div>
+            <div className={styles.message}>
+              Press space to start a new game
+            </div>
+          </If>
+          <Court
+            width={width}
+            height={height} >
+            <Paddle
+              windowHeight={height}
+              windowWidth={width}
+              y={yRight}
+              update={updateRightPaddle}
+              right={true}
+              gameRunning={! isGamePaused} />
+            <Paddle
+              windowHeight={height}
+              windowWidth={width}
+              y={yLeft}
+              update={updateLeftPaddle}
+              gameRunning={! isGamePaused} />
+            <Ball
+              windowHeight={height}
+              windowWidth={width}
+              leftPaddlePosition={yLeft}
+              rightPaddlePosition={yRight}
+              gameRunning={! isGamePaused}
+              increaseScore={increasePlayerScore}
+              handleGameEnd={this._handleGameEnd}
+              gameStarted={isGameStarted} />
+          </Court>
+        </If>
       </div>
     );
   }
 
   _handleKeyPress(event) {
-    const { togglePlayPause } = this.props;
+    const { togglePlayPause, startGame } = this.props;
+    const { welcome } = this.state;
     if (event.keyCode === 32) {
-      togglePlayPause();
+      if (welcome) {
+        this.setState({
+          welcome: false,
+        });
+        startGame();
+      }
+      else {
+        togglePlayPause();
+      }
     }
   }
 
