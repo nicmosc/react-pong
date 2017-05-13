@@ -39,11 +39,11 @@ class Pong extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener("keypress", this._handleKeyPress, false);
+    window.addEventListener("keydown", this._handleKeyPress, false);
+    window.focus();
   }
 
   componentWillMount() {
-    // this._handleWindowResize();
     window.addEventListener("resize", this._handleWindowResize.bind(this));
   }
 
