@@ -137,7 +137,7 @@ class Pong extends React.Component {
   }
 
   _handleKeyPress(event) {
-    const { togglePlayPause, startGame } = this.props;
+    const { togglePlayPause, startGame, isGameStarted } = this.props;
     const { welcome } = this.state;
     if (event.keyCode === 32) {
       if (welcome) {
@@ -147,7 +147,12 @@ class Pong extends React.Component {
         startGame();
       }
       else {
-        togglePlayPause();
+        if (! isGameStarted) {
+          startGame();
+        }
+        else {
+          togglePlayPause();
+        }
       }
     }
   }
@@ -165,9 +170,11 @@ class Pong extends React.Component {
     const { scores, endGame } = this.props;
     if (scores.player1 === 10) {
       endGame(1);
+      return true;
     }
     else if (scores.player2 === 10) {
       endGame(2);
+      return true;
     }
   }
 }

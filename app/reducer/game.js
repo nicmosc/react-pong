@@ -55,6 +55,8 @@ export default function game(state = initialState, action) {
         ...state,
         started: true,
         winner: null,
+        player1: 0,
+        player2: 0,
       };
     }
     case GameActions.END_GAME: {

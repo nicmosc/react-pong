@@ -56,7 +56,7 @@ class Ball extends React.Component {
   }
 
   render() {
-    const { x, y } = this.state;
+    const { x, y, stop } = this.state;
     return (
       <Rect
         width={size}
@@ -174,9 +174,7 @@ class Ball extends React.Component {
       yBounced: false,
       stop: true,
     });
-    if (gameStarted) {
-      setTimeout(this._restart, 300);
-    }
+    setTimeout(this._restart, 300);
   }
 
   _restart() {
