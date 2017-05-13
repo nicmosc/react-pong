@@ -20,6 +20,7 @@ import {
   getPlayerScores,
   getIsGameStarted,
 } from 'selectors';
+import If from 'utils/If';
 
 import styles from 'styles/containers/pong';
 
@@ -73,6 +74,11 @@ class Pong extends React.Component {
             {scores.player2}
           </div>
         </div>
+        <If cond={isGamePaused}>
+          <div className={styles.pauseMessage}>
+            Press SPACE to continue
+          </div>
+        </If>
         <Court
           width={width}
           height={height} >

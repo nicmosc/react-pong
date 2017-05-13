@@ -4,7 +4,7 @@ const initialState = {
   yRight: 0,
   yLeft: 0,
   paused: true,
-  started: false,
+  started: true,
   player1: 0,
   player2: 0,
 };
