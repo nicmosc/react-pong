@@ -55,12 +55,30 @@
 }
 
 
-:local(.bigMessage) {
+:local(.welcome) {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 200px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+:local(.bigMessage) {
   font-size: 15vw;
-  width: 100vw;
   text-align: center;
+  line-height: 0.8em;
+}
+
+
+:local(.title) {
+  composes: bigMessage;
+  max-width: 90vw;
+  margin-top: 50px;
+}
+
+
+:local(.middleMessages) {
+  margin-top: 20px;
+  padding: 50px;
 }

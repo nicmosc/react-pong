@@ -71,15 +71,17 @@ class Pong extends React.Component {
     return (
       <div className={styles.pong}>
         <If cond={welcome}>
-          <div className={styles.bigMessage}>
-            Welcome to Pong
-          </div>
-          <div className={styles.middleMessages}>
-            <div>During a game press space to pause</div>
-            <div>Player 1 move with q-a, 2 with up-down</div>
-          </div>
-          <div className={styles.message}>
-            Press space to start a new game now
+          <div className={styles.welcome}>
+            <div className={styles.title}>
+              Welcome to <br /> Pong
+            </div>
+            <div className={styles.middleMessages}>
+              <div>During a game press <span style={{ fontStyle: 'italic' }}>space</span> to pause</div>
+              <div>Player 1 move with <span style={{ fontStyle: 'italic' }}>q-a</span>, 2 with <span style={{ fontStyle: 'italic' }}>up-down</span></div>
+            </div>
+            <div className={styles.message}>
+              Press <span style={{ fontStyle: 'italic' }}>space</span> to start a new game now
+            </div>
           </div>
         </If>
         <If cond={! welcome}>
@@ -94,7 +96,7 @@ class Pong extends React.Component {
           </div>
           <If cond={isGamePaused & isGameStarted}>
             <div className={styles.message}>
-              Press SPACE to continue
+              Press <span style={{ fontStyle: 'italic' }}>space</span> to continue
             </div>
           </If>
           <If cond={! isGameStarted}>
@@ -102,7 +104,7 @@ class Pong extends React.Component {
               {`Player ${winner} won`}
             </div>
             <div className={styles.message}>
-              Press space to start a new game
+              Press <span style={{ fontStyle: 'italic' }}>space</span> to start a new game
             </div>
           </If>
           <Court
