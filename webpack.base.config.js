@@ -21,7 +21,7 @@ module.exports = {
     main: [ './app/app.js' ],
   },
   output: {
-    path: path.resolve(__dirname, 'server/public/js'),
+    path: path.resolve(__dirname, 'build'),
     publicPath: '/',
     filename: '[name].bundle.js',
   },

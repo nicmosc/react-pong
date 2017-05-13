@@ -6,10 +6,13 @@
   "repository": "https://github.com/nicmosc/react-pong.git",
   "author": "nicmosc <nmoscholios@gmail.com>",
   "license": "MIT",
+  "homepage": "https://nicmosc.github.io/react-pong",
   "scripts": {
     "build": "webpack --progress --config webpack.config.js",
     "start": "",
-    "dev": "webpack-dev-server --progress --config webpack.dev.config.js"
+    "dev": "webpack-dev-server --progress --config webpack.dev.config.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "engines": {
     "node": "7.x"
