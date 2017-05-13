@@ -4,18 +4,31 @@ import { Rect } from 'react-konva';
 import { constants as paddleDimensions } from './Paddle';
 
 const size = 15;
+const baseSpeed = { x: 17, y: 0 };
+const maxSpeed = { x: 27, y: 14 };
 
 
-function calculateInitialPos(hw) {
-  return (hw / 2) - size / 2;
+function calculateInitialXPos(w) {
+  return (w / 2) - size / 2;
+}
+
+
+function calculateInitialYPos(h) {
+  return (h / 3) - size / 2;
+}
+
+
+function calculateBounceSpeed(collisionPoint) {
+  const middle = paddleDimensions.height / 2;
+  return maxSpeed.y * ((collisionPoint - middle) * 2 / 100);
 }
 
 
 class Ball extends React.Component {
 
   state = {
-    ySpeed: 10,
-    xSpeed: 10,
+    xSpeed: baseSpeed.x,
+    ySpeed: baseSpeed.y + 5,
     xBounced: false,
     yBounced: false,
     stop: false,
@@ -33,8 +46,8 @@ class Ball extends React.Component {
   componentWillMount() {
     const { windowHeight, windowWidth } = this.props;
     this.setState({
-      x: calculateInitialPos(windowWidth),
-      y: calculateInitialPos(windowHeight),
+      x: calculateInitialXPos(windowWidth),
+      y: calculateInitialYPos(windowHeight),
     });
   }
 
@@ -70,9 +83,9 @@ class Ball extends React.Component {
   }
 
   _handleMovement() {
-    const { gameRunning } = this.props;
+    const { gameRunning, gameStarted } = this.props;
     const { x, y, xSpeed, ySpeed, stop } = this.state;
-    if (! stop && x && y && gameRunning) {
+    if (! stop && x && y && gameRunning && gameStarted) {
       this.setState({
         x: x + xSpeed,
         y: y + ySpeed,
@@ -81,14 +94,16 @@ class Ball extends React.Component {
   }
 
   _handleBallScore() {
-    const { windowWidth, increaseScore } = this.props;
+    const { windowWidth, increaseScore, handleGameEnd } = this.props;
     const { x } = this.state;
     if (x >= windowWidth) {
       increaseScore(1);
+      handleGameEnd();
       this._stop();
     }
     else if (x < -size) {
       increaseScore(2);
+      handleGameEnd();
       this._stop();
     }
   }
@@ -100,8 +115,10 @@ class Ball extends React.Component {
     if (x + size + 5 >= windowWidth - paddleDimensions.width - paddleDimensions.x
       && y + size - 5 >= rightPaddlePosition
       && y + 5 <= rightPaddlePosition + paddleDimensions.height && ! xBounced) {
+      const newYSpeed = calculateBounceSpeed(y - rightPaddlePosition);
       this.setState({
         xSpeed: -xSpeed,
+        ySpeed: newYSpeed,
         xBounced: true,
       });
     }
@@ -109,8 +126,10 @@ class Ball extends React.Component {
     if (x - 5 <= paddleDimensions.width + paddleDimensions.x
         && y + size >= leftPaddlePosition
         && y <= leftPaddlePosition + paddleDimensions.height && ! xBounced) {
+      const newYSpeed = calculateBounceSpeed(y - leftPaddlePosition);
       this.setState({
         xSpeed: -xSpeed,
+        ySpeed: newYSpeed,
         xBounced: true,
       });
     }
@@ -145,17 +164,19 @@ class Ball extends React.Component {
   }
 
   _stop() {
-    const { windowWidth, windowHeight } = this.props;
+    const { windowWidth, windowHeight, gameStarted } = this.props;
     this.setState({
-      x: calculateInitialPos(windowWidth),
-      xSpeed: 10,
+      x: calculateInitialXPos(windowWidth),
+      xSpeed: baseSpeed.x,
       xBounced: false,
-      y: calculateInitialPos(windowHeight),
-      ySpeed: 10,
+      y: calculateInitialYPos(windowHeight),
+      ySpeed: baseSpeed.y + 5,
       yBounced: false,
       stop: true,
     });
-    setTimeout(this._restart, 300);
+    if (gameStarted) {
+      setTimeout(this._restart, 300);
+    }
   }
 
   _restart() {

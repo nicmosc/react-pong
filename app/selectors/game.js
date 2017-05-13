@@ -20,3 +20,8 @@ export function getPlayerScores(state) {
     player2,
   };
 }
+
+
+export function getIsGameStarted(state) {
+  return state.game.started;
+}

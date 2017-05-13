@@ -27,9 +27,12 @@ export function updateLeftPaddle(y) {
 export const TOGGLE_PAUSE_GAME = 'TOGGLE_PAUSE_GAME';
 
 
-export function togglePlayPause() {
+export function togglePlayPause(pause=false) {
   return {
     type: TOGGLE_PAUSE_GAME,
+    payload: {
+      pause,
+    }
   };
 }
 
@@ -43,5 +46,25 @@ export function increasePlayerScore(player) {
     payload: {
       player,
     }
+  };
+}
+
+
+export const END_GAME = 'END_GAME';
+
+
+export function endGame() {
+  return {
+    type: END_GAME,
+  };
+}
+
+
+export const START_GAME = 'START_GAME';
+
+
+export function startGame() {
+  return {
+    type: START_GAME,
   };
 }

@@ -10,12 +10,15 @@ import {
   updateLeftPaddle,
   togglePlayPause,
   increasePlayerScore,
+  startGame,
+  endGame,
 } from 'actions';
 import {
   getRightPaddlePosition,
   getLeftPaddlePosition,
   getIsGamePaused,
   getPlayerScores,
+  getIsGameStarted,
 } from 'selectors';
 
 import styles from 'styles/containers/pong';
@@ -29,6 +32,7 @@ class Pong extends React.Component {
   constructor(props) {
     super(props);
     this._handleKeyPress = this._handleKeyPress.bind(this);
+    this._handleGameEnd = this._handleGameEnd.bind(this);
   }
 
   componentDidMount() {
@@ -56,6 +60,7 @@ class Pong extends React.Component {
       togglePlayPause,
       increasePlayerScore,
       scores,
+      isGameStarted,
     } = this.props;
     return (
       <div className={styles.pong}>
@@ -90,7 +95,9 @@ class Pong extends React.Component {
             leftPaddlePosition={yLeft}
             rightPaddlePosition={yRight}
             gameRunning={! isGamePaused}
-            increaseScore={increasePlayerScore} />
+            increaseScore={increasePlayerScore}
+            handleGameEnd={this._handleGameEnd}
+            gameStarted={isGameStarted} />
         </Court>
       </div>
     );
@@ -99,17 +106,26 @@ class Pong extends React.Component {
   _handleKeyPress(event) {
     const { togglePlayPause } = this.props;
     if (event.keyCode === 32) {
+      console.log('pausing');
       togglePlayPause();
     }
   }
 
   _handleWindowResize() {
+    const { togglePlayPause } = this.props;
     this.setState({
       height: window.innerHeight,
       width: window.innerWidth,
     });
+    togglePlayPause(true);
   }
 
+  _handleGameEnd() {
+    const { scores, endGame } = this.props;
+    if (scores.player1 === 10 || scores.player2 === 10) {
+      endGame();
+    }
+  }
 }
 
 
@@ -117,6 +133,7 @@ const mapStateToProps = (state) => ({
   yLeft: getLeftPaddlePosition(state),
   yRight: getRightPaddlePosition(state),
   isGamePaused: getIsGamePaused(state),
+  isGameStarted: getIsGameStarted(state),
   scores: getPlayerScores(state),
 });
 
@@ -126,6 +143,8 @@ const mapDispatchToProps = {
   updateLeftPaddle,
   togglePlayPause,
   increasePlayerScore,
+  startGame,
+  endGame,
 };
 
 

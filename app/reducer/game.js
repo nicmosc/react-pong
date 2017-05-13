@@ -4,6 +4,7 @@ const initialState = {
   yRight: 0,
   yLeft: 0,
   paused: true,
+  started: false,
   player1: 0,
   player2: 0,
 };
@@ -27,9 +28,10 @@ export default function game(state = initialState, action) {
     }
     case GameActions.TOGGLE_PAUSE_GAME: {
       const { paused } = state;
+      const { pause } = action.payload;
       return {
         ...state,
-        paused: ! paused,
+        paused: pause ? true : ! paused,
       }
     }
     case GameActions.INCREASE_PLAYER_SCORE: {
@@ -46,6 +48,18 @@ export default function game(state = initialState, action) {
           player2: player2 + 1,
         }
       }
+    }
+    case GameActions.START_GAME: {
+      return {
+        ...state,
+        started: true,
+      };
+    }
+    case GameActions.END_GAME: {
+      return {
+        ...state,
+        started: false,
+      };
     }
     default:
       return state;
