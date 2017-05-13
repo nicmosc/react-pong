@@ -19,6 +19,7 @@ import {
   getIsGamePaused,
   getPlayerScores,
   getIsGameStarted,
+  getWinner,
 } from 'selectors';
 import If from 'utils/If';
 
@@ -62,10 +63,11 @@ class Pong extends React.Component {
       increasePlayerScore,
       scores,
       isGameStarted,
+      winner,
     } = this.props;
     return (
       <div className={styles.pong}>
-        <div className={styles.divisor}></div>
+        <div className={styles.divisor} style={{ opacity: isGameStarted ? '1' : '0.4' }}></div>
         <div className={styles.score}>
           <div className={styles.left}>
             {scores.player1}
@@ -74,9 +76,17 @@ class Pong extends React.Component {
             {scores.player2}
           </div>
         </div>
-        <If cond={isGamePaused}>
+        <If cond={isGamePaused & isGameStarted}>
           <div className={styles.pauseMessage}>
             Press SPACE to continue
+          </div>
+        </If>
+        <If cond={! isGameStarted}>
+          <div className={styles.winner}>
+            {`Player ${winner} won`}
+          </div>
+          <div className={styles.message}>
+            Press space to start a new game
           </div>
         </If>
         <Court
@@ -112,7 +122,6 @@ class Pong extends React.Component {
   _handleKeyPress(event) {
     const { togglePlayPause } = this.props;
     if (event.keyCode === 32) {
-      console.log('pausing');
       togglePlayPause();
     }
   }
@@ -128,8 +137,11 @@ class Pong extends React.Component {
 
   _handleGameEnd() {
     const { scores, endGame } = this.props;
-    if (scores.player1 === 10 || scores.player2 === 10) {
-      endGame();
+    if (scores.player1 === 10) {
+      endGame(1);
+    }
+    else if (scores.player2 === 10) {
+      endGame(2);
     }
   }
 }
@@ -141,6 +153,7 @@ const mapStateToProps = (state) => ({
   isGamePaused: getIsGamePaused(state),
   isGameStarted: getIsGameStarted(state),
   scores: getPlayerScores(state),
+  winner: getWinner(state),
 });
 
 

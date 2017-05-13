@@ -25,3 +25,8 @@ export function getPlayerScores(state) {
 export function getIsGameStarted(state) {
   return state.game.started;
 }
+
+
+export function getWinner(state) {
+  return state.game.winner;
+}

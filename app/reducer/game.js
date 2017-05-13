@@ -4,7 +4,8 @@ const initialState = {
   yRight: 0,
   yLeft: 0,
   paused: true,
-  started: true,
+  started: false,
+  winner: null,
   player1: 0,
   player2: 0,
 };
@@ -53,12 +54,15 @@ export default function game(state = initialState, action) {
       return {
         ...state,
         started: true,
+        winner: null,
       };
     }
     case GameActions.END_GAME: {
+      const { player } = action.payload;
       return {
         ...state,
         started: false,
+        winner: player,
       };
     }
     default:
