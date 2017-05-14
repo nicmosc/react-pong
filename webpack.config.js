@@ -11,9 +11,9 @@ const plugins = webpackBaseConfig.plugins || [];
 module.exports = Object.assign({}, webpackBaseConfig, {
   devtool: 'source-map',
   output: Object.assign({}, webpackBaseConfig.output, {
-    publicPath: '/bundle',
-    sourceMapFilename: "[name].bundle-[hash].js.map",
-    filename: '[name].bundle-[hash].js'
+    publicPath: '',
+    sourceMapFilename: "bundle/[name].bundle.js.map",
+    filename: 'bundle/[name].bundle.js'
   }),
   plugins: [
     ...plugins,
