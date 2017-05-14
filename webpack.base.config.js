@@ -21,14 +21,14 @@ module.exports = {
     main: [ './app/app.js' ],
   },
   output: {
-    path: path.resolve(__dirname, 'server/public/js'),
-    publicPath: '/',
+    path: path.resolve(__dirname, 'docs'),
+    publicPath: 'bundle',
     filename: '[name].bundle.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'React Pong',
-      filename: path.resolve(__dirname, 'server/public/index.html'),
+      filename: path.resolve(__dirname, 'docs/index.html'),
       template: path.resolve(__dirname, 'server/index.html'),
     }),
   ],

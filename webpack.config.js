@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 
 const webpackBaseConfig = require('./webpack.base.config.js');
@@ -10,9 +11,9 @@ const plugins = webpackBaseConfig.plugins || [];
 module.exports = Object.assign({}, webpackBaseConfig, {
   devtool: 'source-map',
   output: Object.assign({}, webpackBaseConfig.output, {
-    publicPath: '/bundle',
-    sourceMapFilename: "[name].bundle-[hash].js.map",
-    filename: path.resolve(__dirname, 'server/public/js/[name].bundle-[hash].js')
+    publicPath: '',
+    sourceMapFilename: "bundle/[name].bundle.js.map",
+    filename: 'bundle/[name].bundle.js'
   }),
   plugins: [
     ...plugins,
