@@ -55,6 +55,35 @@
 }
 
 
+:local(.link) {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 0.7em;
+  color: @white;
+  text-decoration: none;
+
+  &:after {
+    content: ' ';
+    position: absolute;
+    height: 5px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: @white;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: all 0.5s cubic-bezier(0.02, 0.82, 0.39, 0.98);
+  }
+
+  &:hover {
+    &:after {
+      transform: scaleX(1);
+    }
+  }
+}
+
+
 :local(.welcome) {
   position: absolute;
   top: 0;

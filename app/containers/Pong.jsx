@@ -82,6 +82,7 @@ class Pong extends React.Component {
             <div className={styles.message}>
               Press <span style={{ fontStyle: 'italic' }}>space</span> to start a new game now
             </div>
+            <a href="https://github.com/nicmosc/react-pong" className={styles.link} target="_blank">github repo</a>
           </div>
         </If>
         <If cond={! welcome}>
