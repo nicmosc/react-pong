@@ -22,6 +22,8 @@ import {
   getWinner,
 } from 'selectors';
 import If from 'utils/If';
+import { ai } from 'utils';
+import { constants as paddleDimensions } from 'components/Paddle';
 
 import styles from 'styles/containers/pong';
 
@@ -36,6 +38,7 @@ class Pong extends React.Component {
     super(props);
     this._handleKeyPress = this._handleKeyPress.bind(this);
     this._handleGameEnd = this._handleGameEnd.bind(this);
+    this._handleAIActions = this._handleAIActions.bind(this);
   }
 
   componentDidMount() {
@@ -132,7 +135,8 @@ class Pong extends React.Component {
               gameRunning={! isGamePaused}
               increaseScore={increasePlayerScore}
               handleGameEnd={this._handleGameEnd}
-              gameStarted={isGameStarted} />
+              gameStarted={isGameStarted}
+              ai={this._handleAIActions} />
           </Court>
         </If>
       </div>
@@ -179,6 +183,12 @@ class Pong extends React.Component {
       endGame(2);
       return true;
     }
+  }
+
+  _handleAIActions(ball) {
+    const { updateLeftPaddle } = this.props;
+    const newPos = ai(ball);
+    updateLeftPaddle(newPos - paddleDimensions.height / 2);
   }
 }
 

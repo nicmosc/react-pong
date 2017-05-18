@@ -83,13 +83,15 @@ class Ball extends React.Component {
   }
 
   _handleMovement() {
-    const { gameRunning, gameStarted } = this.props;
+    const { gameRunning, gameStarted, ai } = this.props;
     const { x, y, xSpeed, ySpeed, stop } = this.state;
     if (! stop && x && y && gameRunning && gameStarted) {
       this.setState({
         x: x + xSpeed,
         y: y + ySpeed,
       });
+
+      ai({ x, y });
     }
   }
 
