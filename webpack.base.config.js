@@ -28,7 +28,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'React Pong',
-      filename: path.resolve(__dirname, 'docs/index.html'),
+      // filename: path.resolve(__dirname, 'docs/index.html'),
       template: path.resolve(__dirname, 'server/index.html'),
     }),
   ],

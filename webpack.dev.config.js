@@ -15,7 +15,7 @@ module.exports = Object.assign({}, webpackBaseConfig, {
     return result;
   }, {}),
   output: Object.assign({}, webpackBaseConfig.output, {
-    publicPath: '/bundle',
+    publicPath: '/',
   }),
   plugins: [
     ...webpackBaseConfig.plugins,
@@ -42,7 +42,7 @@ module.exports = Object.assign({}, webpackBaseConfig, {
     },
     historyApiFallback: true,
     contentBase: 'server',
-    publicPath: '/bundle',
+    publicPath: '/',
     quiet: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
