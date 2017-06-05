@@ -186,8 +186,8 @@ class Pong extends React.Component {
   }
 
   _handleAIActions(ball) {
-    const { updateLeftPaddle } = this.props;
-    const newPos = ai(ball, paddleDimensions);
+    const { updateLeftPaddle, yLeft } = this.props;
+    const newPos = ai(ball, { ...paddleDimensions, y: yLeft });
     updateLeftPaddle(newPos);
   }
 }
