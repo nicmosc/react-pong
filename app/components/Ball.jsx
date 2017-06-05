@@ -99,12 +99,12 @@ class Ball extends React.Component {
     if (x >= windowWidth) {
       increaseScore(1);
       handleGameEnd();
-      this._stop();
+      this._stop(-1);
     }
     else if (x < -size) {
       increaseScore(2);
       handleGameEnd();
-      this._stop();
+      this._stop(1);
     }
   }
 
@@ -163,11 +163,11 @@ class Ball extends React.Component {
     }
   }
 
-  _stop() {
+  _stop(side) {
     const { windowWidth, windowHeight, gameStarted } = this.props;
     this.setState({
       x: calculateInitialXPos(windowWidth),
-      xSpeed: baseSpeed.x,
+      xSpeed: baseSpeed.x * side,
       xBounced: false,
       y: calculateInitialYPos(windowHeight),
       ySpeed: baseSpeed.y + 5,
