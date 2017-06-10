@@ -50,8 +50,20 @@
 :local(.message) {
   position: absolute;
   bottom: 20px;
-  left: 20px;
   font-size: 0.7em;
+  z-index: 999;
+}
+
+
+:local(.leftMessage) {
+  composes: message;
+  left: 20px;
+}
+
+
+:local(.rightMessage) {
+  composes: message;
+  right: 20px;
 }
 
 
@@ -59,7 +71,7 @@
   color: @white;
   text-decoration: none;
   position: relative;
-  font-size: 0.7em;
+  display: flex;
 
   &:after {
     content: ' ';
@@ -80,14 +92,6 @@
       transform: scaleX(1);
     }
   }
-}
-
-
-:local(.github) {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
 }
 
 
@@ -124,5 +128,5 @@
 
 :local(.choice) {
   composes: link;
-  transform: scale(2);
+  transform: scale(1.7);
 }

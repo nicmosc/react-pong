@@ -83,7 +83,7 @@ class Ball extends React.Component {
   }
 
   _handleMovement() {
-    const { gameRunning, gameStarted, ai } = this.props;
+    const { gameRunning, gameStarted, ai, aiOn } = this.props;
     const { x, y, xSpeed, ySpeed, stop } = this.state;
     if (! stop && x && y && gameRunning && gameStarted) {
       this.setState({
@@ -91,7 +91,7 @@ class Ball extends React.Component {
         y: y + ySpeed,
       });
 
-      ai({ x, y, ySpeed });
+      if (aiOn) ai({ x, y, ySpeed });
     }
   }
 
