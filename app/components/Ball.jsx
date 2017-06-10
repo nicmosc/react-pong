@@ -91,7 +91,7 @@ class Ball extends React.Component {
         y: y + ySpeed,
       });
 
-      ai({ x, y });
+      ai({ x, y, ySpeed });
     }
   }
 

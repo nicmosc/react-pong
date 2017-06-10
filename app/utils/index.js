@@ -1,19 +1,22 @@
-export function ai(ball, paddle) {
-  const { x, y } = ball;
-  const { height } = paddle;
+import { constants } from 'components/Paddle';
 
-  // const randomNumber = Math.floor(Math.random() * 1 - 1);
-  // console.log(x / 20, Math.min( x / 20 , 10));
-  // const newPosition = paddle.y + 10;
+
+export function ai(ball, paddle) {
+  const { x, y, ySpeed } = ball;
+  const { height, speed } = constants;
+
+  const absoluteSpeed = Math.abs(ySpeed);
 
   if (y >= paddle.y + height / 2) {
-    return paddle.y + 10;
-    // return paddle.y + Math.min( x / 20 , 10);
+    if (absoluteSpeed > speed) {
+      return paddle.y + speed;
+    }
+    return paddle.y + absoluteSpeed;
   }
-
-  // else if (y <= paddle.y - height / 2) {
-  //   return paddle.y - 10;
-  // }
-
-  return paddle.y - 10;
+  else {
+    if (absoluteSpeed > speed) {
+      return paddle.y - speed;
+    }
+    return paddle.y - absoluteSpeed;
+  }
 }
