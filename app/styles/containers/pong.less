@@ -50,18 +50,28 @@
 :local(.message) {
   position: absolute;
   bottom: 20px;
-  left: 20px;
   font-size: 0.7em;
+  z-index: 999;
+}
+
+
+:local(.leftMessage) {
+  composes: message;
+  left: 20px;
+}
+
+
+:local(.rightMessage) {
+  composes: message;
+  right: 20px;
 }
 
 
 :local(.link) {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  font-size: 0.7em;
   color: @white;
   text-decoration: none;
+  position: relative;
+  display: flex;
 
   &:after {
     content: ' ';
@@ -77,6 +87,7 @@
   }
 
   &:hover {
+    cursor: pointer;
     &:after {
       transform: scaleX(1);
     }
@@ -107,6 +118,15 @@
 
 
 :local(.middleMessages) {
-  margin-top: 20px;
+  margin-top: 40px;
   padding: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+
+:local(.choice) {
+  composes: link;
+  transform: scale(1.7);
 }

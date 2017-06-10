@@ -12,6 +12,7 @@ import {
   increasePlayerScore,
   startGame,
   endGame,
+  quitGame,
 } from 'actions';
 import {
   getRightPaddlePosition,
@@ -22,6 +23,8 @@ import {
   getWinner,
 } from 'selectors';
 import If from 'utils/If';
+import { ai } from 'utils';
+import { constants as paddleDimensions } from 'components/Paddle';
 
 import styles from 'styles/containers/pong';
 
@@ -36,6 +39,8 @@ class Pong extends React.Component {
     super(props);
     this._handleKeyPress = this._handleKeyPress.bind(this);
     this._handleGameEnd = this._handleGameEnd.bind(this);
+    this._handleAIActions = this._handleAIActions.bind(this);
+    this._startGame = this._startGame.bind(this);
   }
 
   componentDidMount() {
@@ -67,7 +72,7 @@ class Pong extends React.Component {
       winner,
       startGame,
     } = this.props;
-    const { welcome } = this.state;
+    const { welcome, ai } = this.state;
     return (
       <div className={styles.pong}>
         <If cond={welcome}>
@@ -76,13 +81,16 @@ class Pong extends React.Component {
               Welcome to <br /> Pong
             </div>
             <div className={styles.middleMessages}>
+              <span onClick={() => this._startGame('ai')} className={styles.choice}>1 player</span>
+              <span onClick={() => this._startGame()} className={styles.choice}>2 players</span>
+            </div>
+            <div className={styles.leftMessage}>
               <div>During a game press <span style={{ fontStyle: 'italic' }}>space</span> to pause</div>
               <div>Player 1 move with <span style={{ fontStyle: 'italic' }}>q-a</span>, 2 with <span style={{ fontStyle: 'italic' }}>up-down</span></div>
             </div>
-            <div className={styles.message}>
-              Press <span style={{ fontStyle: 'italic' }}>space</span> to start a new game now
+            <div className={styles.rightMessage}>
+              <a href="https://github.com/nicmosc/react-pong" className={styles.link} target="_blank">github repo</a>
             </div>
-            <a href="https://github.com/nicmosc/react-pong" className={styles.link} target="_blank">github repo</a>
           </div>
         </If>
         <If cond={! welcome}>
@@ -96,7 +104,7 @@ class Pong extends React.Component {
             </div>
           </div>
           <If cond={isGamePaused & isGameStarted}>
-            <div className={styles.message}>
+            <div className={styles.leftMessage}>
               Press <span style={{ fontStyle: 'italic' }}>space</span> to continue
             </div>
           </If>
@@ -104,7 +112,7 @@ class Pong extends React.Component {
             <div className={styles.bigMessage}>
               {`Player ${winner} won`}
             </div>
-            <div className={styles.message}>
+            <div className={styles.leftMessage}>
               Press <span style={{ fontStyle: 'italic' }}>space</span> to start a new game
             </div>
           </If>
@@ -123,6 +131,7 @@ class Pong extends React.Component {
               windowWidth={width}
               y={yLeft}
               update={updateLeftPaddle}
+              aiOn={ai}
               gameRunning={! isGamePaused} />
             <Ball
               windowHeight={height}
@@ -132,7 +141,9 @@ class Pong extends React.Component {
               gameRunning={! isGamePaused}
               increaseScore={increasePlayerScore}
               handleGameEnd={this._handleGameEnd}
-              gameStarted={isGameStarted} />
+              gameStarted={isGameStarted}
+              aiOn={ai}
+              ai={this._handleAIActions} />
           </Court>
         </If>
       </div>
@@ -143,19 +154,11 @@ class Pong extends React.Component {
     const { togglePlayPause, startGame, isGameStarted } = this.props;
     const { welcome } = this.state;
     if (event.keyCode === 32) {
-      if (welcome) {
-        this.setState({
-          welcome: false,
-        });
+      if (! isGameStarted) {
         startGame();
       }
       else {
-        if (! isGameStarted) {
-          startGame();
-        }
-        else {
-          togglePlayPause();
-        }
+        togglePlayPause();
       }
     }
   }
@@ -179,6 +182,21 @@ class Pong extends React.Component {
       endGame(2);
       return true;
     }
+  }
+
+  _handleAIActions(ball) {
+    const { updateLeftPaddle, yLeft } = this.props;
+    const newPos = ai(ball, { ...paddleDimensions, y: yLeft });
+    updateLeftPaddle(newPos);
+  }
+
+  _startGame(ai) {
+    const { startGame } = this.props;
+    this.setState({
+      welcome: false,
+      ai,
+    });
+    startGame();
   }
 }
 
