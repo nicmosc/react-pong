@@ -9,15 +9,9 @@ export function ai(ball, paddle) {
   const paddleExtreme = paddle.y + height / 2;
 
   if (y >= paddleExtreme) {
-    if (Math.abs(y + ballSpeed - paddleExtreme) > height) {
-      return paddle.y + (speed - 2);
-    }
-    return paddle.y + ballSpeed;
+    return paddle.y + Math.min(ballSpeed, speed);
   }
   else {
-    if (Math.abs(y + ballSpeed - paddleExtreme) > height) {
-      return paddle.y - (speed - 2);
-    }
-    return paddle.y - ballSpeed;
+    return paddle.y - Math.min(ballSpeed, speed);
   }
 }
