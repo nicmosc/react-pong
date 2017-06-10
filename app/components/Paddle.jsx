@@ -71,7 +71,7 @@ class Paddle extends React.Component {
   }
 
   _handleKeyDown(event) {
-    // if (this.props.aiOn) return false;
+    if (this.props.aiOn) return false;
     if (this.props.right) {
       if (event.keyCode === 40) {
         this.setState({
@@ -99,7 +99,7 @@ class Paddle extends React.Component {
   }
 
   _handleKeyUp(event) {
-    // if (this.props.aiOn) return false;
+    if (this.props.aiOn) return false;
     const { up, down } = this.state;
     if (this.props.right) {
       if (event.keyCode === 40 && up) {
