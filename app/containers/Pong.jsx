@@ -79,13 +79,16 @@ class Pong extends React.Component {
               Welcome to <br /> Pong
             </div>
             <div className={styles.middleMessages}>
+              <span className={styles.choice}>1 player</span>
+              <span className={styles.choice}>2 players</span>
+            </div>
+            <div className={styles.message}>
               <div>During a game press <span style={{ fontStyle: 'italic' }}>space</span> to pause</div>
               <div>Player 1 move with <span style={{ fontStyle: 'italic' }}>q-a</span>, 2 with <span style={{ fontStyle: 'italic' }}>up-down</span></div>
             </div>
-            <div className={styles.message}>
-              Press <span style={{ fontStyle: 'italic' }}>space</span> to start a new game now
+            <div className={styles.github}>
+              <a href="https://github.com/nicmosc/react-pong" className={styles.link} target="_blank">github repo</a>
             </div>
-            <a href="https://github.com/nicmosc/react-pong" className={styles.link} target="_blank">github repo</a>
           </div>
         </If>
         <If cond={! welcome}>
@@ -147,20 +150,20 @@ class Pong extends React.Component {
     const { togglePlayPause, startGame, isGameStarted } = this.props;
     const { welcome } = this.state;
     if (event.keyCode === 32) {
-      if (welcome) {
-        this.setState({
-          welcome: false,
-        });
-        startGame();
-      }
-      else {
+      // if (welcome) {
+      //   this.setState({
+      //     welcome: false,
+      //   });
+      //   startGame();
+      // }
+      // else {
         if (! isGameStarted) {
           startGame();
         }
         else {
           togglePlayPause();
         }
-      }
+      // }
     }
   }
 

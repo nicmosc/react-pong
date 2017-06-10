@@ -56,12 +56,10 @@
 
 
 :local(.link) {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  font-size: 0.7em;
   color: @white;
   text-decoration: none;
+  position: relative;
+  font-size: 0.7em;
 
   &:after {
     content: ' ';
@@ -77,10 +75,19 @@
   }
 
   &:hover {
+    cursor: pointer;
     &:after {
       transform: scaleX(1);
     }
   }
+}
+
+
+:local(.github) {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
 }
 
 
@@ -107,6 +114,15 @@
 
 
 :local(.middleMessages) {
-  margin-top: 20px;
+  margin-top: 40px;
   padding: 50px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+
+:local(.choice) {
+  composes: link;
+  transform: scale(2);
 }
