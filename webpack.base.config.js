@@ -20,11 +20,11 @@ module.exports = {
     extensions: ['.js', '.jsx', '.less'],
   },
   entry: {
-    main: [ './app/app.js' ],
+    pong: [ './app/app.js' ],
   },
   output: {
     path: path.resolve(__dirname, 'docs'),
-    publicPath: 'bundle',
+    // publicPath: 'bundle',
     filename: '[name].bundle.js',
   },
   plugins: [
@@ -32,7 +32,7 @@ module.exports = {
       title: 'React Pong',
       template: path.resolve(__dirname, 'index.html'),
     }),
-    new ExtractTextPlugin('bundle/styles.css'),
+    new ExtractTextPlugin('styles.css'),
   ],
   module: {
     rules: [
