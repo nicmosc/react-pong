@@ -2,6 +2,8 @@ const path = require('path');
 const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const cssnano = require('cssnano');
 
 
 const rootDirs = [
@@ -28,9 +30,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'React Pong',
-      // filename: path.resolve(__dirname, 'docs/index.html'),
-      template: path.resolve(__dirname, 'server/index.html'),
+      template: path.resolve(__dirname, 'index.html'),
     }),
+    new ExtractTextPlugin('bundle/styles.css'),
   ],
   module: {
     rules: [
@@ -48,61 +50,58 @@ module.exports = {
         ],
       },
       {
-        test: /\.css$/,
-        use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true,
-              localIdentName: '[name]__[local]--[hash:base64:5]',
+        test: /\.css/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+                localIdentName: '[name]__[local]--[hash:base64:5]',
+              },
             },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true,
-              plugins: () => [ autoprefixer ],
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: true,
+                plugins: () => [ autoprefixer, cssnano({ safe: true }) ],
+              },
             },
-          },
-        ],
+          ],
+        }),
       },
       {
         test: /\.less$/,
-        use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true,
-              localIdentName: '[name]__[local]--[hash:base64:5]',
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true,
+                localIdentName: '[name]__[local]--[hash:base64:5]',
+              },
             },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true,
-              plugins: () => [ autoprefixer ],
+            {
+              loader: 'postcss-loader',
+              options: {
+                sourceMap: true,
+                plugins: () => [ autoprefixer, cssnano({ safe: true }) ],
+              },
             },
-          },
-          {
-            loader: 'less-loader',
-            options: {
-              sourceMap: true,
+            {
+              loader: 'less-loader',
+              options: {
+                sourceMap: true,
+              },
             },
-          },
-        ],
+          ],
+        }),
       },
       {
         test: /\.otf$/,
         use: [
-          {
-            loader: 'style-loader',
-          },
           {
             loader: 'file-loader',
             options: {
@@ -115,9 +114,6 @@ module.exports = {
         test: /\.woff$/,
         use: [
           {
-            loader: 'style-loader',
-          },
-          {
             loader: 'file-loader',
             options: {
               name: 'fonts/[name].[ext]',
@@ -129,9 +125,6 @@ module.exports = {
         test: /\.ttf$/,
         use: [
           {
-            loader: 'style-loader',
-          },
-          {
             loader: 'file-loader',
             options: {
               name: 'fonts/[name].[ext]',
@@ -142,9 +135,6 @@ module.exports = {
       {
         test: /\.eot$/,
         use: [
-          {
-            loader: 'style-loader',
-          },
           {
             loader: 'file-loader',
             options: {
